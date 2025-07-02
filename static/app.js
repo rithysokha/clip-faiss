@@ -10,7 +10,7 @@ document.getElementById('searchButton')
             resultsDiv.innerHTML = '';
             data.forEach(imagePath => {
                 const img = document.createElement('img');
-                img.src = `/${imagePath}`; // Convert file path to URL
+                img.src = `/${imagePath}`;
                 img.style.maxWidth = '200px';
                 img.style.margin = '10px';
                 resultsDiv.appendChild(img);

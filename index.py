@@ -20,16 +20,16 @@ def index(image_dir_path):
     images = []
     image_paths = []
     img_dir_path = image_dir_path
-    for animal_name in sorted(os.listdir(img_dir_path)):
-        print(animal_name)
-        if not os.path.isdir(os.path.join(img_dir_path, animal_name)):
+    for product_name in sorted(os.listdir(img_dir_path)):
+        print(product_name)
+        if not os.path.isdir(os.path.join(img_dir_path, product_name)):
             continue
-        for img_file in tqdm(os.listdir(os.path.join(img_dir_path, animal_name))):
+        for img_file in tqdm(os.listdir(os.path.join(img_dir_path, product_name))):
             if not img_file.endswith(".jpg"):
                 continue
-            image = Image.open(os.path.join(img_dir_path, animal_name, img_file)).convert("RGB")
+            image = Image.open(os.path.join(img_dir_path, product_name, img_file)).convert("RGB")
             images.append(preprocess(image))
-            image_paths.append(os.path.join(img_dir_path, animal_name, img_file))
+            image_paths.append(os.path.join(img_dir_path, product_name, img_file))
     image_input = torch.tensor(np.stack(images)).to(device)
 
     with torch.no_grad():

@@ -2,20 +2,23 @@ document.getElementById('searchButton')
 .addEventListener('click', function() {
     const searchTerm = document.getElementById('searchInput').value;
     if (searchTerm.trim() !== '') {
-        const apiUrl = `/search?search_query=${searchTerm}`;
+        const apiUrl = `/search?search_query=${encodeURIComponent(searchTerm)}`;
         fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            // data is a list of image urls
-            // clear any previous results in results div
-            // and add new results
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '';
-            data.forEach(imageUrl => {
+            data.forEach(imagePath => {
                 const img = document.createElement('img');
-                img.src = imageUrl;
+                img.src = `/${imagePath}`; // Convert file path to URL
+                img.style.maxWidth = '200px';
+                img.style.margin = '10px';
                 resultsDiv.appendChild(img);
             });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('results').innerHTML = 'Error loading results';
         });
     }
 });

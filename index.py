@@ -3,7 +3,7 @@ from PIL import Image
 from tqdm import tqdm
 
 import argparse
-import clip
+import clip as clip
 import faiss
 import json
 import numpy as np
@@ -47,6 +47,6 @@ def index(image_dir_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image_dir_path", type=str, default="static/data/images")
+    parser.add_argument("--image_dir_path", type=str, default="./images")
     args = parser.parse_args()
     index(args.image_dir_path)

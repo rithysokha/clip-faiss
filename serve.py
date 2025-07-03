@@ -34,7 +34,6 @@ def search_by_image():
         return jsonify({"error": "No file selected"}), 400
     
     if file and file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
-        # Save uploaded file with unique name
         filename = f"{uuid.uuid4()}_{secure_filename(file.filename)}"
         filepath = os.path.join(flask_app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
@@ -42,11 +41,9 @@ def search_by_image():
         try:
             app = App()
             results = app.search_by_image(filepath, results=5)
-            # Clean up uploaded file
             os.remove(filepath)
             return jsonify(results)
         except Exception as e:
-            # Clean up uploaded file on error
             if os.path.exists(filepath):
                 os.remove(filepath)
             return jsonify({"error": str(e)}), 500

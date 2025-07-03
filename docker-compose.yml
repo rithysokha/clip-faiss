@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  clip-faiss-downloader:
+    build: .
+    container_name: clip-faiss-downloader
+    volumes:
+      - ./images:/app/images
+      - ./csv:/app/csv
+      - ./static:/app/static
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python download.py
+    
+  clip-faiss-server:
+    build: .
+    container_name: clip-faiss-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./images:/app/images
+      - ./csv:/app/csv
+      - ./static:/app/static
+      - ./templates:/app/templates
+    environment:
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=production
+    command: python serve.py
+    depends_on:
+      - clip-faiss-downloader
+
+# Run downloader
+#docker run -v $(pwd)/images:/app/images -v $(pwd)/csv:/app/csv clip-faiss-app python download.py
+
+# Run web server
+#docker run -p 5000:5000 -v $(pwd)/images:/app/images -v $(pwd)/static:/app/static clip-faiss-app python serve.py
